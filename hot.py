@@ -28,22 +28,20 @@ def scrape_hot100():
     # get titles
     titles = []
     for song in soup.select('li h3'):
-        titles.append(song.get_text()[14:-5])
+        titles.append(song.get_text().replace('\n','').replace('\t',''))
 
     titles = titles[:-9]
 
     artists = []
     for artist in soup.select('li ul li span.c-label')[0::7]:
-        artists.append(artist.get_text()[4:-1])
+        artists.append(artist.get_text().replace('\n','').replace('\t',''))
 
     top = pd.DataFrame({'titles':titles,
                         'artists': artists})
+
+
 
     top.to_csv('popular.csv', index=False)
 
 if __name__ == '__main__':
     scrape_hot100()
-
-
-
-
